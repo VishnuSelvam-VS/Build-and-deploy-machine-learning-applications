@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Habit</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            text-align: center;
+            background: url("{{ url_for('static', filename='photo-1564510714747-69c3bc1fab41 (1).jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            min-height: 100vh;
+        }
+        form {
+            margin-top: 50px;
+            font-size: 20px;
+        }
+        input[type=text], input[type=time] {
+            padding: 12px;
+            width: 250px;
+            margin: 8px;
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        input[type=submit] {
+            background: #007BFF;
+            padding: 12px 25px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #0056b3;
+        }
+        .msg {
+            color: red;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add New Habit</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="msg">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <input type="text" name="habit" placeholder="Enter Habit Name" required><br>
+        <label>Time (optional): </label>
+        <input type="time" name="time"><br>
+        <input type="submit" value="Add Habit">
+    </form>
+
+    <a href="/" style="display:block;margin-top:20px;">⬅ Back to Home</a>
+</body>
+</html>

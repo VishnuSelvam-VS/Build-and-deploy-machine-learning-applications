@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Today's Habits</title>
+    <style>
+       body {
+            font-family: "Poppins", sans-serif;
+            text-align: center;
+            background: url("{{ url_for('static', filename='photo-1564510714747-69c3bc1fab41 (1).jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            min-height: 100vh;
+        }
+        .habit-card {
+            width: 60%;
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        .habit-card:hover {
+            transform: scale(1.02);
+        }
+        .completed {
+            color: green;
+            font-weight: bold;
+        }
+        .congrats {
+            margin:24px 0;
+            padding:20px;
+            background:#d4edda;
+            color:#155724;
+            border-radius:10px;
+            font-size:22px;
+            font-weight:bold;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Habits for {{ today }}</h1>
+    {% if all_done %}
+      <div class="congrats">
+            🎉 Everything done for today!
+      </div>
+    {% endif %}
+    {% if habits %}
+        {% for habit in habits %}
+            <div class="habit-card">
+                <strong>{{ habit['habit'] }}</strong>
+                {% if habit['time'] %} <p>🕒 Time: {{ habit['time'] }}</p> {% endif %}
+                {% if habit['completed'] == 1 %}
+                    <p class="completed">✅ Completed!</p>
+                {% else %}
+                    <p><a href="/complete/{{ habit['habit'] }}">Mark as Done</a></p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No habits added for today yet. <a href="/add">Add one now!</a></p>
+    {% endif %}
+    <a href="/" style="display:block;margin-top:30px;">⬅ Back to Home</a>
+</body>
+</html>
