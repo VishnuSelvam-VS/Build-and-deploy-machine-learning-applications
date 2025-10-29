@@ -1,0 +1,20 @@
+from sklearn.model_selection import GridSearchCV,cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+
+# Data
+X, y = load_iris(return_X_y=True)
+
+# Model & grid
+model = RandomForestClassifier()
+param_grid = {'n_estimators': [50, 100], 'max_depth': [2, 4, None]}
+
+# Grid search
+grid = GridSearchCV(model, param_grid, cv=3)
+grid.fit(X, y)
+
+print(grid.best_params_, grid.best_score_)
+
+scores = cross_val_score(model,X,y,cv=5)
+
+print(scores.mean())

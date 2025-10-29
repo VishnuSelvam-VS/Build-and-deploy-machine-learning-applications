@@ -1,0 +1,47 @@
+# 2. Import libraries
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# 3. Load dataseta
+df = sns.load_dataset('titanic')  # Titanic dataset
+df.head()
+
+# 4. Explore the dataset
+print(df.info())
+print(df.describe())
+print(df.isnull().sum())
+
+# 5. Handle missing values
+# Fill age with median, embark_town with mode
+df['age'].fillna(df['age'].median(), inplace=True)
+df['embark_town'].fillna(df['embark_town'].mode()[0], inplace=True)
+df.drop(columns=['deck'], inplace=True)  # too many missing values
+
+# 6. Encode categorical variables
+# Convert ‘sex’ and ‘embark_town’ using LabelEncoder
+le = LabelEncoder()
+df['sex'] = le.fit_transform(df['sex'])
+df['embark_town'] = le.fit_transform(df['embark_town'])
+
+# Drop non-informative or redundant columns
+df.drop(columns=['embarked', 'class', 'who', 'alive', 'adult_male', 'alone'], inplace=True)
+
+# 7. Feature Scaling
+scaler = StandardScaler()
+numerical_cols = ['age', 'fare']
+df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
+
+# 8. Split dataset
+# Define features (X) and label (y)
+X = df.drop('survived', axis=1)
+y = df['survived']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 9. Show final preprocessed data
+print("Training Data Shape:", X_train.shape)
+print("Test Data Shape:", X_test.shape)
+X_train.head()
